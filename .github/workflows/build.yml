@@ -247,11 +247,68 @@ jobs:
       - name: Build binary with PyInstaller
         run: .venv/bin/pyinstaller packaging/linux.spec --noconfirm
 
+      - name: Create .deb package
+        run: |
+          set -euo pipefail
+          VERSION="${{ github.event.inputs.version }}"
+          VERSION="${VERSION#v}"
+          PKG_ROOT="pkg"
+
+          rm -rf "$PKG_ROOT"
+          mkdir -p \
+            "$PKG_ROOT/DEBIAN" \
+            "$PKG_ROOT/usr/bin" \
+            "$PKG_ROOT/usr/share/applications" \
+            "$PKG_ROOT/usr/share/icons/hicolor/256x256/apps"
+
+          install -m 755 dist/TgWsProxy "$PKG_ROOT/usr/bin/tg-ws-proxy"
+
+          .venv/bin/python - <<PY
+          from PIL import Image
+
+          Image.open("icon.ico").save(
+              "${PKG_ROOT}/usr/share/icons/hicolor/256x256/apps/tg-ws-proxy.png",
+              "PNG",
+          )
+          PY
+
+          cat > "$PKG_ROOT/usr/share/applications/tg-ws-proxy.desktop" <<EOF
+          [Desktop Entry]
+          Type=Application
+          Name=TG WS Proxy
+          GenericName=Telegram Proxy
+          Comment=Telegram Desktop WebSocket Bridge Proxy
+          Exec=tg-ws-proxy
+          Icon=tg-ws-proxy
+          Terminal=false
+          Categories=Network;
+          StartupNotify=true
+          Keywords=telegram;proxy;websocket;
+          EOF
+
+          cat > "$PKG_ROOT/DEBIAN/control" <<EOF
+          Package: tg-ws-proxy
+          Version: ${VERSION}
+          Section: net
+          Priority: optional
+          Architecture: amd64
+          Maintainer: Flowseal
+          Depends: libgtk-3-0, libayatana-appindicator3-1, python3-tk
+          Description: Telegram Desktop WebSocket Bridge Proxy
+           SOCKS5/WebSocket bridge proxy for Telegram Desktop with tray UI.
+          EOF
+
+          dpkg-deb --build --root-owner-group \
+            "$PKG_ROOT" \
+            "dist/tg-ws-proxy_${VERSION}_amd64.deb"
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: TgWsProxy-linux
-          path: dist/TgWsProxy
+          path: |
+            dist/TgWsProxy
+            dist/tg-ws-proxy_*_amd64.deb
 
   release:
     needs: [build, build-win7, build-macos, build-linux]
@@ -294,6 +351,7 @@ jobs:
             dist/TgWsProxy-win7.exe
             dist/TgWsProxy.dmg
             dist/TgWsProxy
+            dist/tg-ws-proxy_*_amd64.deb
           draft: false
           prerelease: false
         env:
