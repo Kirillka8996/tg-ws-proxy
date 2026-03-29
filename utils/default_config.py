@@ -21,7 +21,6 @@ _TRAY_DEFAULTS_COMMON: Dict[str, Any] = {
 
 
 def default_tray_config() -> Dict[str, Any]:
-    """Новая копия конфига по умолчанию для текущей ОС."""
     cfg = dict(_TRAY_DEFAULTS_COMMON)
     cfg["secret"] = os.urandom(16).hex()
 
