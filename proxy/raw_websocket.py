@@ -87,6 +87,7 @@ class RawWebSocket:
         set_sock_opts(writer.transport, proxy_config.buffer_size)
 
         ws_key = base64.b64encode(os.urandom(16)).decode()
+
         req = (
             f'GET /apiws HTTP/1.1\r\n'
             f'Host: {domain}\r\n'
@@ -95,7 +96,6 @@ class RawWebSocket:
             f'Sec-WebSocket-Key: {ws_key}\r\n'
             f'Sec-WebSocket-Version: 13\r\n'
             f'Sec-WebSocket-Protocol: binary\r\n'
-            f'Origin: https://web.telegram.org\r\n'
             f'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
             f'AppleWebKit/537.36 (KHTML, like Gecko) '
             f'Chrome/131.0.0.0 Safari/537.36\r\n'

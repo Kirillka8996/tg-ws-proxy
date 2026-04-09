@@ -167,10 +167,11 @@ async def _cfproxy_fallback(reader, writer, relay_init, label,
     ws = None
     chosen_domain = None
 
+    log.info("[%s] DC%d%s -> trying CF proxy",
+            label, dc, media_tag)
+
     for base_domain in ([active] + others):
         domain = f'kws{dc}.{base_domain}'
-        log.info("[%s] DC%d%s -> CF proxy wss",
-                 label, dc, media_tag)
         try:
             ws = await RawWebSocket.connect(domain, domain, timeout=10.0)
             chosen_domain = base_domain
