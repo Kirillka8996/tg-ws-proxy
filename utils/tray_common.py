@@ -401,7 +401,7 @@ _ctk_root: Any = None
 _ctk_root_ready = threading.Event()
 
 
-def ensure_ctk_thread(ctk: Any) -> bool:
+def ensure_ctk_thread(ctk: Any, mode: str = "auto") -> bool:
     global _ctk_root
     if ctk is None:
         return False
@@ -413,7 +413,7 @@ def ensure_ctk_thread(ctk: Any) -> bool:
         from ui.ctk_theme import apply_ctk_appearance, install_tkinter_variable_del_guard
 
         install_tkinter_variable_del_guard()
-        apply_ctk_appearance(ctk)
+        apply_ctk_appearance(ctk, mode)
         _ctk_root = ctk.CTk()
         _ctk_root.withdraw()
         _ctk_root_ready.set()

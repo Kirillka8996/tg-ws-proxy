@@ -146,6 +146,11 @@ def _cfproxy_show_test_results(domain: str, results: dict) -> None:
 
 _INNER_W = 396
 
+_APPEARANCE_OPTIONS = ["Авто", "Светлая", "Тёмная"]
+_APPEARANCE_FROM_CFG = {"auto": "Авто", "light": "Светлая", "dark": "Тёмная"}
+_APPEARANCE_TO_CFG = {"Авто": "auto", "Светлая": "light", "Тёмная": "dark"}
+_APPEARANCE_TO_CTK = {"auto": "system", "light": "Light", "dark": "Dark"}
+
 
 def _entry(ctk, parent, theme, *, var=None, width=0, height=36, radius=10, **kw):
     opts = dict(
@@ -249,6 +254,7 @@ class TrayConfigFormWidgets:
     cfproxy_var: Optional[Any] = None
     cfproxy_priority_var: Optional[Any] = None
     cfproxy_domain_var: Optional[Any] = None
+    appearance_var: Optional[Any] = None
 
 
 def install_tray_config_form(
@@ -272,6 +278,33 @@ def install_tray_config_form(
         header, text=f"v{__version__}",
         font=(theme.ui_font_family, 12),
         text_color=theme.text_secondary, anchor="e",
+    ).pack(side="right", padx=(4, 0))
+    appearance_var = ctk.StringVar(
+        value=_APPEARANCE_FROM_CFG.get(cfg.get("appearance", "auto"), "Авто")
+    )
+
+    def _on_appearance_change(choice: str) -> None:
+        cfg_val = _APPEARANCE_TO_CFG.get(choice, "auto")
+        ctk.set_appearance_mode(_APPEARANCE_TO_CTK[cfg_val])
+
+    ctk.CTkComboBox(
+        header,
+        values=_APPEARANCE_OPTIONS,
+        variable=appearance_var,
+        width=102,
+        height=28,
+        font=(theme.ui_font_family, 12),
+        text_color=theme.text_secondary,
+        fg_color=theme.field_bg,
+        border_color=theme.field_border,
+        button_color=theme.field_border,
+        button_hover_color=theme.text_secondary,
+        dropdown_fg_color=theme.field_bg,
+        dropdown_text_color=theme.text_primary,
+        dropdown_hover_color=theme.field_border,
+        corner_radius=8,
+        state="readonly",
+        command=_on_appearance_change,
     ).pack(side="right")
 
     conn = _config_section(ctk, frame, theme, "Подключение MTProto")
@@ -488,6 +521,7 @@ def install_tray_config_form(
         cfproxy_var=cfproxy_var,
         cfproxy_priority_var=cfproxy_priority_var,
         cfproxy_domain_var=cfproxy_domain_var,
+        appearance_var=appearance_var,
     )
 
 
@@ -572,6 +606,8 @@ def validate_config_form(
         domain = widgets.cfproxy_domain_var.get().strip()
         if domain:
             new_cfg["cfproxy_domain"] = domain
+    if widgets.appearance_var is not None:
+        new_cfg["appearance"] = _APPEARANCE_TO_CFG.get(widgets.appearance_var.get(), "auto")
     return new_cfg
 
 
