@@ -34,6 +34,7 @@
   - **[Windows](./README.windows.md)**
   - **[macOS](./README.macos.md)**
   - **[Linux](./README.linux.md)**
+  - **[Docker](./README.docker.md)**
 - [Настройка Cloudflare-домена (CF-прокси)](./CfProxy.md)
 - [Fake TLS + upstream в Nginx](./FakeTlsNginx.md)
 - [Файлы конфигурации Tray-приложения](./TrayConfig.md)
