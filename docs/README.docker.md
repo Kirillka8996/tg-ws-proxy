@@ -52,7 +52,7 @@ docker run -d \
   -e TG_WS_PROXY_SECRET="ваш_секрет" \
   tg-ws-proxy:latest
 ```
-→
+
 Для генерации секрета можно использовать:
 
  ```bash
