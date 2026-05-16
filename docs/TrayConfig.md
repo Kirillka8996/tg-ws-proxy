@@ -21,7 +21,6 @@ Tray-приложение хранит данные в:
   "log_max_mb": 5.0,
   "check_updates": true,
   "cfproxy": true,
-  "cfproxy_priority": true,
   "cfproxy_user_domain": "",
   "cfproxy_worker_domain": "",
   "appearance": "auto"

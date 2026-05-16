@@ -49,7 +49,6 @@ tg-ws-proxy [--port PORT] [--host HOST] [--dc-ip DC:IP ...] [-v]
 | `--no-cfproxy` | `false` | Отключить попытку [проксирования через Cloudflare](./CfProxy.md) |
 | `--cfproxy-domain` | | Указать свой домен для проксирования через Cloudflare. [Подробнее](./CfProxy.md) |
 | `--cfproxy-worker-domain` | | Домен Cloudflare Worker [Подробнее](./CfWorker.md) |
-| `--cfproxy-priority` | `true` | Пробовать проксировать через Cloudflare перед прямым TCP подключением |
 | `--fake-tls-domain` | | Включить маскировку Fake TLS (ee-secret) с указанным SNI-доменом |
 | `--proxy-protocol` | выкл. | Принимать HAProxy PROXY protocol v1 (для работы за nginx/haproxy с `proxy_protocol on`) |
 | `--buf-kb` | `256` | Размер буфера в КБ |

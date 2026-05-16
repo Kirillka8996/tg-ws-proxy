@@ -132,15 +132,16 @@ async def do_fallback(reader, writer, relay_init, label,
                        ctx: CryptoCtx, splitter=None):
     fallback_dst = DC_DEFAULT_IPS.get(dc)
     use_cf = proxy_config.fallback_cfproxy
-    cf_first = proxy_config.fallback_cfproxy_priority
     worker_domain = proxy_config.cfproxy_worker_domain
 
-    methods: List[str] = ['tcp']
+    methods: List[str] = []
 
+    if worker_domain and fallback_dst:
+        methods.append('cf_worker')
     if use_cf:
-        methods.insert(0 if cf_first else 1, 'cf')
-    if worker_domain:
-        methods.insert(0, 'cf_worker')
+        methods.append('cf')
+    if fallback_dst:
+        methods.append('tcp')
 
     for method in methods:
         if method == 'cf_worker' and fallback_dst:

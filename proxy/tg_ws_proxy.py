@@ -587,9 +587,8 @@ async def _run(stop_event: Optional[asyncio.Event] = None):
         ip = proxy_config.dc_redirects.get(dc)
         log.info("    DC%d: %s", dc, ip)
     if proxy_config.fallback_cfproxy:
-        prio = 'CF first' if proxy_config.fallback_cfproxy_priority else 'TCP first'
         user_domain = "user" if proxy_config.cfproxy_user_domain else "auto"
-        log.info("  CF proxy:      enabled (%s | %s)", prio, user_domain)
+        log.info("  CF proxy:      enabled (%s)", user_domain)
     if proxy_config.cfproxy_worker_domain:
         log.info("  CF worker:     enabled (%s)",
                  proxy_config.cfproxy_worker_domain)
@@ -654,16 +653,6 @@ def run_proxy(stop_event: Optional[asyncio.Event] = None):
 
 
 def main():
-    def _parse_bool(value: str) -> bool:
-        lowered = value.strip().lower()
-        if lowered == 'true':
-            return True
-        if lowered == 'false':
-            return False
-        raise argparse.ArgumentTypeError(
-            "Expected boolean value: true or false",
-        )
-
     ap = argparse.ArgumentParser(
         description='Telegram MTProto WebSocket Bridge Proxy')
     ap.add_argument('--port', type=int, default=1443,
@@ -696,8 +685,6 @@ def main():
                          '(tried before other fallback methods)')
     ap.add_argument('--no-cfproxy', action='store_true',
                     help='Disable Cloudflare proxy fallback')
-    ap.add_argument('--cfproxy-priority', type=_parse_bool, default=True,
-                    help='Try cfproxy before tcp fallback (default: true)')
     ap.add_argument('--fake-tls-domain', type=str, default='',
                     metavar='DOMAIN',
                     help='Enable Fake TLS (ee-secret) masking with the given '
@@ -737,7 +724,6 @@ def main():
     proxy_config.buffer_size = max(4, args.buf_kb) * 1024
     proxy_config.pool_size = max(0, args.pool_size)
     proxy_config.fallback_cfproxy = not args.no_cfproxy
-    proxy_config.fallback_cfproxy_priority = args.cfproxy_priority
     proxy_config.cfproxy_user_domain = args.cfproxy_domain.strip()
     proxy_config.cfproxy_worker_domain = args.cfproxy_worker_domain.strip()
     proxy_config.fake_tls_domain = args.fake_tls_domain.strip()
