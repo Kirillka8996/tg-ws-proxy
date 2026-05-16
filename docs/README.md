@@ -1,7 +1,7 @@
 <div align="center">
 	<br />
 	<p>
-		<img width="1729" height="910" alt="tg-ws" src="https://github.com/user-attachments/assets/35869460-f3ff-4452-b2cb-0a7ab12fc8d8" />
+		<img width="1729" height="910" alt="tgwsproxy" src="https://github.com/user-attachments/assets/86c230be-3286-4da9-8a30-1c781bee44e6" />
 	</p>
 </div>
 
