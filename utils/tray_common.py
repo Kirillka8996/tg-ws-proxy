@@ -273,6 +273,7 @@ def apply_proxy_config(cfg: dict) -> bool:
     pc.fallback_cfproxy = cfg.get("cfproxy", DEFAULT_CONFIG["cfproxy"])
     pc.fallback_cfproxy_priority = cfg.get("cfproxy_priority", DEFAULT_CONFIG["cfproxy_priority"])
     pc.cfproxy_user_domain = cfg.get("cfproxy_user_domain", DEFAULT_CONFIG["cfproxy_user_domain"])
+    pc.cfproxy_worker_domain = cfg.get("cfproxy_worker_domain", DEFAULT_CONFIG["cfproxy_worker_domain"])
     return True
 
 

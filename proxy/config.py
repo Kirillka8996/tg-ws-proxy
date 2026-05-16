@@ -60,6 +60,7 @@ class ProxyConfig:
     fallback_cfproxy: bool = True
     fallback_cfproxy_priority: bool = True
     cfproxy_user_domain: str = ''
+    cfproxy_worker_domain: str = ''
     fake_tls_domain: str = ''
     proxy_protocol: bool = False
 

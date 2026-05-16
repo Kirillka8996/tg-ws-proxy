@@ -590,6 +590,9 @@ async def _run(stop_event: Optional[asyncio.Event] = None):
         prio = 'CF first' if proxy_config.fallback_cfproxy_priority else 'TCP first'
         user_domain = "user" if proxy_config.cfproxy_user_domain else "auto"
         log.info("  CF proxy:      enabled (%s | %s)", prio, user_domain)
+    if proxy_config.cfproxy_worker_domain:
+        log.info("  CF worker:     enabled (%s)",
+                 proxy_config.cfproxy_worker_domain)
     log.info("=" * 60)
     log.info("  Connect:")
     if ftls:
@@ -687,6 +690,10 @@ def main():
     ap.add_argument('--cfproxy-domain', type=str, default='',
                     metavar='DOMAIN',
                     help='User defined Cloudflare-proxied domain for WS fallback')
+    ap.add_argument('--cfproxy-worker-domain', type=str, default='',
+                    metavar='DOMAIN',
+                    help='Cloudflare Worker domain for WS fallback '
+                         '(tried before other fallback methods)')
     ap.add_argument('--no-cfproxy', action='store_true',
                     help='Disable Cloudflare proxy fallback')
     ap.add_argument('--cfproxy-priority', type=_parse_bool, default=True,
@@ -732,6 +739,7 @@ def main():
     proxy_config.fallback_cfproxy = not args.no_cfproxy
     proxy_config.fallback_cfproxy_priority = args.cfproxy_priority
     proxy_config.cfproxy_user_domain = args.cfproxy_domain.strip()
+    proxy_config.cfproxy_worker_domain = args.cfproxy_worker_domain.strip()
     proxy_config.fake_tls_domain = args.fake_tls_domain.strip()
     proxy_config.proxy_protocol = args.proxy_protocol
 
