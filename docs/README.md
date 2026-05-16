@@ -1,3 +1,12 @@
+<div align="center">
+	<br />
+	<p>
+		<img width="1729" height="910" alt="tg-ws" src="https://github.com/user-attachments/assets/35869460-f3ff-4452-b2cb-0a7ab12fc8d8" />
+	</p>
+</div>
+
+##
+
 > [!TIP]
 >
 > ### [🎉 Поддержать меня](./Funding.md)
