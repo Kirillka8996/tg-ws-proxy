@@ -25,28 +25,6 @@ workers.dev
 ```javascript
 import { connect } from "cloudflare:sockets";
 
-const DC_IPS = {
-	"1": "149.154.175.50",
-	"2": "149.154.167.51",
-	"3": "149.154.175.100",
-	"4": "149.154.167.91",
-	"5": "149.154.171.5",
-	"203": "91.105.192.100",
-};
-
-function isIpv4(value) {
-	return /^\d{1,3}(\.\d{1,3}){3}$/.test(value || "");
-}
-
-function pickDst(url) {
-	const byDst = url.searchParams.get("dst");
-	if (isIpv4(byDst)) {
-		return byDst;
-	}
-	const dc = url.searchParams.get("dc") || "2";
-	return DC_IPS[dc] || DC_IPS["2"];
-}
-
 function toBytes(data) {
 	if (data instanceof ArrayBuffer) {
 		return new Uint8Array(data);
@@ -71,7 +49,7 @@ export default {
 			return new Response("Not found", { status: 404 });
 		}
 
-		const dst = pickDst(url);
+		const dst = url.searchParams.get("dst");
 		const pair = new WebSocketPair();
 		const client = pair[0];
 		const server = pair[1];
