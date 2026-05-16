@@ -21,7 +21,7 @@ workers.dev
    <img width="586" height="379" alt="image" src="https://github.com/user-attachments/assets/ff901439-c2a1-4867-95de-e11b82a37044" />  
    <img width="624" height="694" alt="image" src="https://github.com/user-attachments/assets/bb68d49a-166d-42a0-8fe2-bd2b16c0d066" />
 
-5. Сверху справа нажмите кнопку **`Edit code`**, замените код слева на тот, [что находится внизу этой страницы](https://github.com/Flowseal/tg-ws-proxy/edit/main/docs/CfWorker.md#код-workerа)
+5. Сверху справа нажмите кнопку **`Edit code`**, замените код слева на тот, [что находится внизу этой страницы](./CfWorker.md#код-workerа)
     * Если у вас не загружается код, то вы не выполнили первый пункт  
     <img width="911" height="117" alt="image" src="https://github.com/user-attachments/assets/6bcdf839-d776-47e9-9d18-ba0efdf53244" />  
 	<img width="1027" height="512" alt="image" src="https://github.com/user-attachments/assets/daf131ed-82d5-40f0-a7eb-daeb598bea40" />
